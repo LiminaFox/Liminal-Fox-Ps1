@@ -6,6 +6,7 @@
   "scripts": { "dev": "vite", "build": "vite build" },
   "dependencies": {
     "@capacitor/android": "^7.0.0",
+    "@capacitor/app": "^7.0.0",
     "@capacitor/core": "^7.0.0",
     "three": "0.160.0"
   },
