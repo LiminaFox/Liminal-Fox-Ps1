@@ -1,0 +1,29 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><title>Zorro Liminal</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<style>
+html,body{margin:0;height:100%;background:#000;overflow:hidden;font-family:"Courier New",monospace;color:#d8d2a8;touch-action:none;user-select:none;-webkit-user-select:none}
+canvas{width:100%;height:100%;display:block;image-rendering:pixelated}
+.fx{position:fixed;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,.18) 0 1px,transparent 1px 3px),radial-gradient(ellipse at center,transparent 50%,rgba(0,0,0,.75) 100%)}
+#ov{position:fixed;inset:0;z-index:20;background:rgba(0,0,0,.85);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px}
+#ov h1{font-size:clamp(26px,6vw,52px);letter-spacing:.2em;margin:0 0 10px;text-shadow:0 0 12px #8a8560}
+#ov p{margin:4px 0;color:#8a8560;font-size:14px}
+#ov b{color:#d8d2a8;animation:bl 1.4s steps(2) infinite}
+@keyframes bl{50%{opacity:.2}}
+.t{display:none}.touch .t{display:block}
+#zl,#zr{position:fixed;top:0;height:100%;z-index:5}
+#zl{left:0;width:45%}#zr{right:0;width:55%}
+#stick{position:fixed;width:120px;height:120px;border:2px solid rgba(216,210,168,.5);border-radius:50%;display:none;z-index:6;pointer-events:none;background:rgba(0,0,0,.25)}
+#knob{position:absolute;left:35px;top:35px;width:50px;height:50px;border-radius:50%;background:rgba(216,210,168,.55)}
+.bt{position:fixed;z-index:10;width:84px;height:84px;border-radius:50%;border:2px solid rgba(216,210,168,.6);background:rgba(0,0,0,.45);color:#d8d2a8;font:bold 14px "Courier New",monospace;right:calc(24px + env(safe-area-inset-right));touch-action:none}
+#bRun{bottom:calc(24px + env(safe-area-inset-bottom))}
+#bLight{bottom:calc(126px + env(safe-area-inset-bottom))}
+.bt:active{background:rgba(216,210,168,.35)}
+</style></head><body>
+<canvas id="c"></canvas><div class="fx"></div>
+<div id="zl" class="t"></div><div id="zr" class="t"></div>
+<div id="stick"><div id="knob"></div></div>
+<button id="bLight" class="bt t">LUZ</button><button id="bRun" class="bt t">CORRER</button>
+<div id="ov"><h1>ZORRO.EXE</h1><p>Un furry negro. Una linterna. Lugares que nadie recuerda.</p>
+<p class="t">Izquierda: mover · Derecha: mirar</p><p>PC: WASD · Shift · mouse · F linterna</p>
+<p style="margin-top:18px"><b>[ toca para entrar ]</b></p><p>Usa audífonos para el eco.</p></div>
+<script type="module" src="/src/main.js"></script></body></html>
