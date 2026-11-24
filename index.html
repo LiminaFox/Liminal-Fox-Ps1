@@ -1,29 +1,46 @@
-<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><title>Zorro Liminal</title>
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><title>Zorro Burger</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <style>
-html,body{margin:0;height:100%;background:#000;overflow:hidden;font-family:"Courier New",monospace;color:#d8d2a8;touch-action:none;user-select:none;-webkit-user-select:none}
+html,body{margin:0;height:100%;background:#000;overflow:hidden;overscroll-behavior:none;font-family:"Courier New",monospace;color:#e6dfb0;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent}
+button{touch-action:none;-webkit-tap-highlight-color:transparent}
 canvas{width:100%;height:100%;display:block;image-rendering:pixelated}
-.fx{position:fixed;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,.18) 0 1px,transparent 1px 3px),radial-gradient(ellipse at center,transparent 50%,rgba(0,0,0,.75) 100%)}
-#ov{position:fixed;inset:0;z-index:20;background:rgba(0,0,0,.85);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px}
-#ov h1{font-size:clamp(26px,6vw,52px);letter-spacing:.2em;margin:0 0 10px;text-shadow:0 0 12px #8a8560}
-#ov p{margin:4px 0;color:#8a8560;font-size:14px}
-#ov b{color:#d8d2a8;animation:bl 1.4s steps(2) infinite}
-@keyframes bl{50%{opacity:.2}}
+.fx{position:fixed;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,.16) 0 1px,transparent 1px 3px),radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,.7) 100%)}
+.ov{position:fixed;inset:0;z-index:30;background:rgba(0,0,0,.86);display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px;gap:10px}
+.ov h1{font-size:clamp(26px,6vw,50px);letter-spacing:.15em;margin:0;text-shadow:0 0 12px #a08a40}
+.ov p{margin:2px 0;color:#9a9468;font-size:14px;max-width:520px}
+.mb{font:bold 18px "Courier New",monospace;color:#e6dfb0;background:rgba(40,34,14,.9);border:2px solid #a08a40;border-radius:10px;padding:12px 28px;min-width:230px}
+.mb:active{background:#a08a40;color:#000}
+#hud{display:none}
+#tickets{position:fixed;left:calc(8px + env(safe-area-inset-left));top:8px;display:flex;flex-direction:column;gap:5px;z-index:8;pointer-events:none}
+.tk{background:rgba(0,0,0,.6);border:1px solid #a08a40;padding:3px 7px;font-size:13px;position:relative;overflow:hidden;min-width:130px}
+.tk i{position:absolute;left:0;bottom:0;height:3px;background:#e0a030}
+#stats{position:fixed;right:70px;top:10px;font-size:15px;background:rgba(0,0,0,.55);padding:4px 10px;z-index:8;pointer-events:none;white-space:nowrap}
+#bPause{position:fixed;right:calc(10px + env(safe-area-inset-right));top:8px;z-index:9;width:48px;height:42px;font-size:20px;background:rgba(0,0,0,.6);color:#e6dfb0;border:2px solid #a08a40;border-radius:8px}
+#toasts{position:fixed;top:56px;left:50%;transform:translateX(-50%);z-index:8;pointer-events:none;text-align:center;font-size:13px;display:flex;flex-direction:column;gap:3px;align-items:center}
+#toasts div{background:rgba(0,0,0,.7);padding:3px 9px}
+#bot{position:fixed;bottom:calc(10px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);z-index:8;pointer-events:none;text-align:center}
+#hand{font-size:26px;letter-spacing:.2em;text-shadow:0 0 6px #000}
+#prompt{font-size:15px;min-height:20px;background:rgba(0,0,0,.6);padding:2px 10px;margin-top:3px}
 .t{display:none}.touch .t{display:block}
-#zl,#zr{position:fixed;top:0;height:100%;z-index:5}
-#zl{left:0;width:45%}#zr{right:0;width:55%}
-#stick{position:fixed;width:120px;height:120px;border:2px solid rgba(216,210,168,.5);border-radius:50%;display:none;z-index:6;pointer-events:none;background:rgba(0,0,0,.25)}
-#knob{position:absolute;left:35px;top:35px;width:50px;height:50px;border-radius:50%;background:rgba(216,210,168,.55)}
-.bt{position:fixed;z-index:10;width:84px;height:84px;border-radius:50%;border:2px solid rgba(216,210,168,.6);background:rgba(0,0,0,.45);color:#d8d2a8;font:bold 14px "Courier New",monospace;right:calc(24px + env(safe-area-inset-right));touch-action:none}
-#bRun{bottom:calc(24px + env(safe-area-inset-bottom))}
-#bLight{bottom:calc(126px + env(safe-area-inset-bottom))}
-.bt:active{background:rgba(216,210,168,.35)}
+#zl,#zr{position:fixed;top:0;height:100%;z-index:5}#zl{left:0;width:45%}#zr{right:0;width:55%}
+#stick{position:fixed;width:120px;height:120px;border:2px solid rgba(230,223,176,.5);border-radius:50%;display:none;z-index:6;pointer-events:none;background:rgba(0,0,0,.25)}
+#knob{position:absolute;left:35px;top:35px;width:50px;height:50px;border-radius:50%;background:rgba(230,223,176,.55)}
+.bt{position:fixed;z-index:10;border-radius:50%;border:2px solid rgba(230,223,176,.65);background:rgba(0,0,0,.5);color:#e6dfb0;touch-action:none;font-size:30px;padding:0}
+.bt:active,.bt.on{background:rgba(160,138,64,.5)}
+.bt.on{border-color:#e6dfb0;box-shadow:0 0 10px rgba(230,223,176,.5)}
+#rot{position:fixed;inset:0;z-index:40;background:#000;color:#e6dfb0;display:none;align-items:center;justify-content:center;text-align:center;padding:30px;font-size:18px}
+@media (orientation:portrait){.touch #rot{display:flex}}
+#bAct{width:104px;height:104px;font-size:44px;right:calc(22px + env(safe-area-inset-right));bottom:calc(22px + env(safe-area-inset-bottom))}
+#bRun{width:74px;height:74px;right:calc(140px + env(safe-area-inset-right));bottom:calc(22px + env(safe-area-inset-bottom))}
+#bLight{width:74px;height:74px;right:calc(34px + env(safe-area-inset-right));bottom:calc(140px + env(safe-area-inset-bottom))}
 </style></head><body>
 <canvas id="c"></canvas><div class="fx"></div>
-<div id="zl" class="t"></div><div id="zr" class="t"></div>
-<div id="stick"><div id="knob"></div></div>
-<button id="bLight" class="bt t">LUZ</button><button id="bRun" class="bt t">CORRER</button>
-<div id="ov"><h1>ZORRO.EXE</h1><p>Un furry negro. Una linterna. Lugares que nadie recuerda.</p>
-<p class="t">Izquierda: mover · Derecha: mirar</p><p>PC: WASD · Shift · mouse · F linterna</p>
-<p style="margin-top:18px"><b>[ toca para entrar ]</b></p><p>Usa audífonos para el eco.</p></div>
+<div id="hud"><div id="tickets"></div><div id="stats"></div><button id="bPause">⏸</button><div id="toasts"></div><div id="bot"><div id="hand"></div><div id="prompt"></div></div></div>
+<div id="zl" class="t"></div><div id="zr" class="t"></div><div id="stick"><div id="knob"></div></div>
+<button id="bAct" class="bt t">✋</button><button id="bRun" class="bt t">👟</button><button id="bLight" class="bt t">🔦</button>
+<div id="rot">🔄 Gira el teléfono a horizontal para jugar</div>
+<div id="title" class="ov"><h1>ZORRO BURGER</h1><p>Un local de comida rápida en medio de la nada. Siempre es de noche. A veces llueve, nieva o truena. Llegan pedidos y nadie sabe cómo. Cocina, sirve y limpia. Igual te pagan.</p><p>Si algo se rompe, arréglalo. Si algo suena, no preguntes.</p>
+<p>PC: WASD · Shift correr · E interactuar · F linterna · Esc pausa</p><button id="bPlay" class="mb">▶ Jugar</button></div>
+<div id="pause" class="ov"><h1>PAUSA</h1><button id="bResume" class="mb">▶ Continuar</button><button id="bSnd" class="mb">🔊 Sonido: SÍ</button><button id="bExit" class="mb">🚪 Salir</button></div>
+<div id="sum" class="ov"><h1 id="sumT">DÍA 1</h1><p id="sumP"></p><button id="bNext" class="mb">▶ Siguiente día</button></div>
 <script type="module" src="/src/main.js"></script></body></html>
